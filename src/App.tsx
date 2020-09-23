@@ -1,26 +1,26 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { FC, useMemo } from 'react';
+import { createBrowserHistory } from 'history';
+import Rocon, { RoconRoot, useRoutes } from 'rocon/react';
 
-function App() {
+// import Routes from './Routes';
+
+const toplevelRoutes = Rocon.Path()
+  .route('foo', (route) => route.action(() => <p>FOO</p>))
+  .route('bar', (route) => route.action(() => <p>BAR</p>));
+
+const Routes: FC = () => {
+  return useRoutes(toplevelRoutes);
+};
+
+const App: FC = () => {
+  const history = useMemo(() => {
+    return createBrowserHistory();
+  }, []);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <RoconRoot history={history}>
+      <Routes />
+    </RoconRoot>
   );
-}
+};
 
 export default App;
